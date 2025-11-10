@@ -30,14 +30,15 @@ typedef struct {
     char isbn[MAX_ISBN]; // ISBN du livre
     char titre[MAX_TITRE]; // Titre du livre
     char auteur[MAX_AUTEUR]; // Auteur du livre
-    int annee; // Année de parution
     char categorie[MAX_CATEGORIE]; // Catégorie du livre
+    int annee; // Année de parution
 } Livre;
 
 typedef struct {
     int num_expemplaire; // Numéro de l'exemplaie (équivaut à l'ISBN pour les livres)
-    int stock_expemplaire; // Nombre d'exemplaire en stock
+    int ISBN[MAX_ISBN]; // ISBN du livre
     char date_achat[MAX_DATE]; // Date d'achat de l'exemplaire
+    int stock_expemplaire; // Nombre d'exemplaire en stock
     int disponible; // 1 = exemplaire disponible, 0 = exemplaire emprunté
 } Exemplaire;
 
@@ -50,14 +51,14 @@ typedef struct {
 } Utilisateur;
 
 typedef struct {
-    int id_emprunt; // Id d'emprunt
-    char isbn[MAX_ISBN]; // ISBN du livre emprunté
     int num_exemplaire; // Numéro de l'exemplaire du livre emprunté
     char id_utilisateur[MAX_ID]; // Id de l'utilisateur qui réalise l'emprunt
     char date_emprunt[MAX_DATE]; // Date d'emprunt
     char date_retour_prevue[MAX_DATE]; // Date de retour de l'exemplaire prévu
-    char date_retour_effective[MAX_DATE]; // Date de retour réel du livre par l'utilisateur
     int actif; // 1 = emprunt en cours, 0 = exemplaire retourné
+    int id_emprunt; // Id d'emprunt
+    char isbn[MAX_ISBN]; // ISBN du livre emprunté
+    char date_retour_effective[MAX_DATE]; // Date de retour réel du livre par l'utilisateur
 } Emprunt;
 
 typedef struct {
