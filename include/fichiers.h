@@ -6,7 +6,7 @@
 #ifndef FICHIERS_H
 #define FICHIERS_H
 
-#include "structures.h"
+#include "../structures.h"
 
 void sauvegarder_donnees(Bibliotheque* bib);
 void charger_donnees(Bibliotheque* bib);

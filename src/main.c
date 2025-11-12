@@ -5,12 +5,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "structures.h"
-#include "livres.h"
-#include "utilisateurs.h"
-#include "emprunts.h"
-#include "fichiers.h"
-#include "utils.h"
+#include "../structures.h"
+#include "../include/livres.h"
+#include "../include/utilisateurs.h"
+#include "../include/emprunts.h"
+#include "../fichiers.h"
+#include "../utils.h"
 
 void afficher_menu_principal() {
     printf("\n");

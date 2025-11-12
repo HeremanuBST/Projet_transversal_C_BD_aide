@@ -5,14 +5,14 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "emprunts.h"
-#include "livres.h"
-#include "utilisateurs.h"
-#include "utils.h"
+#include "../include/emprunts.h"
+#include "../include/livres.h"
+#include "../include/utilisateurs.h"
+#include "../utils.h"
 
 void afficher_un_emprunt(Emprunt* emp, Bibliotheque* bib) {
     int idx_livre = trouver_livre_par_isbn(bib, emp->isbn);
-    int idx_user = trouver_utilisateur(bib, emp->id_etudiant);
+    int idx_user = trouver_utilisateur(bib, emp->id_utilisateur);
 
     printf("ID Emprunt: %d\n", emp->id_emprunt);
 
@@ -67,13 +67,13 @@ void emprunter_livre(Bibliotheque* bib) {
         return;
     }
 
-    printf("ID étudiant: ");
+    printf("ID etudiant: ");
     scanf("%19s", id_etudiant);
     vider_buffer();
 
     int idx_user = trouver_utilisateur(bib, id_etudiant);
     if (idx_user == -1) {
-        printf("Erreur: Utilisateur non trouvé!\n");
+        printf("Erreur: Utilisateur non trouve!\n");
         return;
     }
 
@@ -91,7 +91,7 @@ void emprunter_livre(Bibliotheque* bib) {
     Emprunt nouveau;
     nouveau.id_emprunt = bib->prochain_id_emprunt++;
     strcpy(nouveau.isbn, isbn);
-    strcpy(nouveau.id_etudiant, id_etudiant);
+    strcpy(nouveau.id_utilisateur, id_etudiant);
     obtenir_date_actuelle(nouveau.date_emprunt);
     ajouter_jours(nouveau.date_emprunt, DUREE_EMPRUNT, nouveau.date_retour_prevue);
     strcpy(nouveau.date_retour_effective, "");
@@ -125,7 +125,7 @@ void retourner_livre(Bibliotheque* bib) {
     for (int i = 0; i < bib->nb_emprunts; i++) {
         if (bib->emprunts[i].actif &&
             strcmp(bib->emprunts[i].isbn, isbn) == 0 &&
-            strcmp(bib->emprunts[i].id_etudiant, id_etudiant) == 0) {
+            strcmp(bib->emprunts[i].id_utilisateur, id_etudiant) == 0) {
 
             obtenir_date_actuelle(bib->emprunts[i].date_retour_effective);
             bib->emprunts[i].actif = 0;

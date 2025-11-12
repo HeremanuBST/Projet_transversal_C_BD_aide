@@ -4,8 +4,7 @@
 // ============================================================================
 
 #include <stdio.h>
-#include <string.h>
-#include "fichiers.h"
+#include "../include/fichiers.h"
 
 void sauvegarder_livres(Bibliotheque* bib) {
     FILE* f = fopen("livres.txt", "w");
@@ -36,7 +35,7 @@ void sauvegarder_utilisateurs(Bibliotheque* bib) {
 
     for (int i = 0; i < bib->nb_utilisateurs; i++) {
         fprintf(f, "%s|%s|%s|%s|%d\n",
-                bib->utilisateurs[i].id_etudiant,
+                bib->utilisateurs[i].id_utilisateur,
                 bib->utilisateurs[i].nom,
                 bib->utilisateurs[i].prenom,
                 bib->utilisateurs[i].email,
@@ -59,7 +58,7 @@ void sauvegarder_emprunts(Bibliotheque* bib) {
         fprintf(f, "%d|%s|%s|%s|%s|%s|%d\n",
                 bib->emprunts[i].id_emprunt,
                 bib->emprunts[i].isbn,
-                bib->emprunts[i].id_etudiant,
+                bib->emprunts[i].id_utilisateur,
                 bib->emprunts[i].date_emprunt,
                 bib->emprunts[i].date_retour_prevue,
                 bib->emprunts[i].date_retour_effective,
@@ -113,7 +112,7 @@ void charger_utilisateurs(Bibliotheque* bib) {
     bib->nb_utilisateurs = 0;
 
     while (fscanf(f, "%[^|]|%[^|]|%[^|]|%[^|]|%d\n",
-                  bib->utilisateurs[bib->nb_utilisateurs].id_etudiant,
+                  bib->utilisateurs[bib->nb_utilisateurs].id_utilisateur,
                   bib->utilisateurs[bib->nb_utilisateurs].nom,
                   bib->utilisateurs[bib->nb_utilisateurs].prenom,
                   bib->utilisateurs[bib->nb_utilisateurs].email,
@@ -139,7 +138,7 @@ void charger_emprunts(Bibliotheque* bib) {
     while (fscanf(f, "%d|%[^|]|%[^|]|%[^|]|%[^|]|%[^|]|%d\n",
                   &bib->emprunts[bib->nb_emprunts].id_emprunt,
                   bib->emprunts[bib->nb_emprunts].isbn,
-                  bib->emprunts[bib->nb_emprunts].id_etudiant,
+                  bib->emprunts[bib->nb_emprunts].id_utilisateur,
                   bib->emprunts[bib->nb_emprunts].date_emprunt,
                   bib->emprunts[bib->nb_emprunts].date_retour_prevue,
                   bib->emprunts[bib->nb_emprunts].date_retour_effective,

@@ -6,8 +6,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include "livres.h"
-#include "utils.h"
+#include "../include/livres.h"
+#include "../include/utils.h"
 
 void afficher_un_livre(Livre* livre) {
     printf("ISBN: %s\n", livre->isbn);
@@ -253,7 +253,7 @@ void afficher_livres(Bibliotheque* bib) {
     printf("\n=== LISTE DES LIVRES (%d) ===\n\n", bib->nb_livres);
 
     for (int i = 0; i < bib->nb_livres; i++) {
-        printf("%d. ", i + 1);
+        printf("%d. ", i + 1); // Pour pouvoir
         afficher_un_livre(&bib->livres[i]);
     }
 }

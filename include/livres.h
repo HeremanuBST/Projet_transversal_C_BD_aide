@@ -7,7 +7,7 @@
 #ifndef LIVRES_H
 #define LIVRES_H
 
-#include "structures.h"
+#include "../structures.h"
 
 void ajouter_livre(Bibliotheque* bib);
 void supprimer_livre(Bibliotheque* bib);
