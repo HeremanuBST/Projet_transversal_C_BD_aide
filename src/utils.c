@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
-#include "utils.h"
+#include "../include/utils.h"
 
 void vider_buffer() {
     int c;

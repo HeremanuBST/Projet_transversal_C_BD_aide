@@ -5,11 +5,11 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "utilisateurs.h"
-#include "utils.h"
+#include "../include/utilisateurs.h"
+#include "../utils.h"
 
 void afficher_un_utilisateur(Utilisateur* user) {
-    printf("ID: %s\n", user->id_etudiant);
+    printf("ID: %s\n", user->id_utilisateur);
     printf("Nom: %s %s\n", user->prenom, user->nom);
     printf("Email: %s\n", user->email);
     printf("Emprunts actifs: %d/%d\n", user->nb_emprunts_actifs, MAX_EMPRUNTS_PAR_USER);
@@ -18,7 +18,7 @@ void afficher_un_utilisateur(Utilisateur* user) {
 
 int trouver_utilisateur(Bibliotheque* bib, const char* id_etudiant) {
     for (int i = 0; i < bib->nb_utilisateurs; i++) {
-        if (strcmp(bib->utilisateurs[i].id_etudiant, id_etudiant) == 0) {
+        if (strcmp(bib->utilisateurs[i].id_utilisateur, id_etudiant) == 0) {
             return i;
         }
     }
@@ -36,10 +36,10 @@ void ajouter_utilisateur(Bibliotheque* bib) {
     printf("\n=== AJOUTER UN UTILISATEUR ===\n");
 
     printf("ID etudiant: ");
-    scanf("%19s", nouveau.id_etudiant);
+    scanf("%19s", nouveau.id_utilisateur);
     vider_buffer();
 
-    if (trouver_utilisateur(bib, nouveau.id_etudiant) != -1) {
+    if (trouver_utilisateur(bib, nouveau.id_utilisateur) != -1) {
         printf("Erreur: Cet ID etudiant existe deja!\n");
         return;
     }
@@ -48,7 +48,7 @@ void ajouter_utilisateur(Bibliotheque* bib) {
     fgets(nouveau.nom, MAX_NOM, stdin);
     nouveau.nom[strcspn(nouveau.nom, "\n")] = 0;
 
-    printf("Prénom: ");
+    printf("Prenom: ");
     fgets(nouveau.prenom, MAX_NOM, stdin);
     nouveau.prenom[strcspn(nouveau.prenom, "\n")] = 0;
 
