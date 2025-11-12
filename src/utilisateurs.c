@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "../include/utilisateurs.h"
-#include "../utils.h"
+#include "../include/utils.h"
 
 void afficher_un_utilisateur(Utilisateur* user) {
     printf("ID: %s\n", user->id_utilisateur);
