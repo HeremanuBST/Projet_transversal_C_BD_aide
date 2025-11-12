@@ -2,7 +2,7 @@
 // FICHIER: utilisateurs.c
 // Description: Implémentation de la gestion des utilisateurs
 // ============================================================================
-// TEST 1 heremanou
+// TEST 1 heremanouuuuuuuuuuuuuuuuuuuuuuuu
 #include <stdio.h>
 #include <string.h>
 #include "../include/utilisateurs.h"
