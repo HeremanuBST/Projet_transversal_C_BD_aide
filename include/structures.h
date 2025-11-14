@@ -16,7 +16,7 @@
 
 #define MAX_TITRE 200
 #define MAX_AUTEUR 100
-#define MAX_ISBN 5
+#define MAX_ISBN 13
 #define MAX_CATEGORIE 10
 #define MAX_NOM 50
 #define MAX_EMAIL 100
