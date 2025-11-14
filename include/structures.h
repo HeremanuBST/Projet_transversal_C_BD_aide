@@ -27,6 +27,47 @@
 #define DUREE_EMPRUNT 15
 
 typedef struct {
+    char isbn[MAX_ISBN];
+    char titre[MAX_TITRE];
+    char auteur[MAX_AUTEUR];
+    int annee;
+    char categorie[MAX_CATEGORIE];
+    int disponible; // 1 = disponible, 0 = emprunté
+} Livre;
+
+typedef struct {
+    char id_utilisateur[MAX_ID];
+    char nom[MAX_NOM];
+    char prenom[MAX_NOM];
+    char email[MAX_EMAIL];
+    int nb_emprunts_actifs;
+} Utilisateur;
+
+typedef struct {
+    int id_emprunt;
+    char isbn[MAX_ISBN];
+    char id_utilisateur[MAX_ID];
+    char date_emprunt[MAX_DATE];
+    char date_retour_prevue[MAX_DATE];
+    char date_retour_effective[MAX_DATE];
+    int actif; // 1 = en cours, 0 = retourné
+} Emprunt;
+
+typedef struct {
+    Livre livres[MAX_LIVRES];
+    int nb_livres;
+    Utilisateur utilisateurs[MAX_UTILISATEURS];
+    int nb_utilisateurs;
+    Emprunt emprunts[MAX_EMPRUNTS];
+    int nb_emprunts;
+    int prochain_id_emprunt;
+} Bibliotheque;
+
+#endif
+
+
+
+/*typedef struct {
     char isbn[MAX_ISBN]; // ISBN du livre
     char titre[MAX_TITRE]; // Titre du livre
     char auteur[MAX_AUTEUR]; // Auteur du livre
@@ -71,4 +112,4 @@ typedef struct {
     int prochain_id_emprunt; // Prochain Id d'emprunt pour évité de le rentrer manuellement
 } Bibliotheque;
 
-#endif
+#endif */

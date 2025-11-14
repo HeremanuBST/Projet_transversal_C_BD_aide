@@ -38,7 +38,7 @@ void ajouter_livre(Bibliotheque* bib) {
 
     printf("\n=== AJOUTER UN LIVRE ===\n");
 
-    printf("ISBN (13 chiffres): ");
+    printf("ISBN (5 chiffres): ");
     scanf("%13s", nouveau.isbn);
     vider_buffer();
 

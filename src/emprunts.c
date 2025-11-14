@@ -8,7 +8,7 @@
 #include "../include/emprunts.h"
 #include "../include/livres.h"
 #include "../include/utilisateurs.h"
-#include "../utils.h"
+#include "../include/utils.h"
 
 void afficher_un_emprunt(Emprunt* emp, Bibliotheque* bib) {
     int idx_livre = trouver_livre_par_isbn(bib, emp->isbn);

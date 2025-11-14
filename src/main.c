@@ -5,12 +5,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "../structures.h"
+#include "../include/structures.h"
 #include "../include/livres.h"
 #include "../include/utilisateurs.h"
 #include "../include/emprunts.h"
-#include "../fichiers.h"
-#include "../utils.h"
+#include "../include/fichiers.h"
+#include "../include/utils.h"
 
 void afficher_menu_principal() {
     printf("\n");
@@ -186,7 +186,7 @@ int main() {
     printf("------------------------------------------\n");
 
     initialiser_bibliotheque(&bib);
-    charger_donnees(&bib);
+//    charger_donnees(&bib);
 
     do {
         afficher_menu_principal();
