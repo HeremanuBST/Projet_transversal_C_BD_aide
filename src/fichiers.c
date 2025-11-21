@@ -6,6 +6,10 @@
 #include <stdio.h>
 #include "../include/fichiers.h"
 
+// ============================================================================
+//  SAUVEGARDE
+// ============================================================================
+
 void sauvegarder_livres(Bibliotheque* bib) {
     FILE* f = fopen("livres.txt", "w");
     if (!f) {
@@ -13,14 +17,33 @@ void sauvegarder_livres(Bibliotheque* bib) {
         return;
     }
 
+    // Livre n'a PLUS le champ "disponible"
     for (int i = 0; i < bib->nb_livres; i++) {
-        fprintf(f, "%s|%s|%s|%d|%s|%d\n",
+        fprintf(f, "%s|%s|%s|%d|%s\n",
                 bib->livres[i].isbn,
                 bib->livres[i].titre,
                 bib->livres[i].auteur,
                 bib->livres[i].annee,
-                bib->livres[i].categorie,
-                bib->livres[i].disponible);
+                bib->livres[i].categorie);
+    }
+
+    fclose(f);
+}
+
+void sauvegarder_exemplaires(Bibliotheque* bib) {
+    FILE* f = fopen("exemplaires.txt", "w");
+    if (!f) {
+        printf("Erreur: Impossible d'ouvrir le fichier exemplaires.txt\n");
+        return;
+    }
+
+    for (int i = 0; i < bib->nb_exemplaires; i++) {
+        fprintf(f, "%d|%s|%s|%d|%d\n",
+                bib->exemplaires[i].num_expemplaire,
+                bib->exemplaires[i].ISBN,
+                bib->exemplaires[i].date_achat,
+                bib->exemplaires[i].stock_expemplaire,
+                bib->exemplaires[i].disponible);
     }
 
     fclose(f);
@@ -52,6 +75,7 @@ void sauvegarder_emprunts(Bibliotheque* bib) {
         return;
     }
 
+    // On garde le prochain id en première ligne
     fprintf(f, "%d\n", bib->prochain_id_emprunt);
 
     for (int i = 0; i < bib->nb_emprunts; i++) {
@@ -72,32 +96,63 @@ void sauvegarder_donnees(Bibliotheque* bib) {
     printf("\n=== SAUVEGARDE DES DONNEES ===\n");
 
     sauvegarder_livres(bib);
+    sauvegarder_exemplaires(bib);
     sauvegarder_utilisateurs(bib);
     sauvegarder_emprunts(bib);
 
     printf("-> Donnees sauvegardees avec succes!\n");
     printf("  - %d livres\n", bib->nb_livres);
+    printf("  - %d exemplaires\n", bib->nb_exemplaires);
     printf("  - %d utilisateurs\n", bib->nb_utilisateurs);
     printf("  - %d emprunts\n", bib->nb_emprunts);
 }
 
+// ============================================================================
+//  CHARGEMENT
+// ============================================================================
+
 void charger_livres(Bibliotheque* bib) {
     FILE* f = fopen("livres.txt", "r");
     if (!f) {
+        bib->nb_livres = 0;
         return;
     }
 
     bib->nb_livres = 0;
 
-    while (fscanf(f, "%[^|]|%[^|]|%[^|]|%d|%[^|]|%d\n",
+    // On ne lit plus "disponible" (il n'existe plus dans Livre)
+    while (fscanf(f, "%[^|]|%[^|]|%[^|]|%d|%[^|]\n",
                   bib->livres[bib->nb_livres].isbn,
                   bib->livres[bib->nb_livres].titre,
                   bib->livres[bib->nb_livres].auteur,
                   &bib->livres[bib->nb_livres].annee,
-                  bib->livres[bib->nb_livres].categorie,
-                  &bib->livres[bib->nb_livres].disponible) == 6) {
+                  bib->livres[bib->nb_livres].categorie) == 5) {
+
         bib->nb_livres++;
         if (bib->nb_livres >= MAX_LIVRES) break;
+    }
+
+    fclose(f);
+}
+
+void charger_exemplaires(Bibliotheque* bib) {
+    FILE* f = fopen("exemplaires.txt", "r");
+    if (!f) {
+        bib->nb_exemplaires = 0;
+        return;
+    }
+
+    bib->nb_exemplaires = 0;
+
+    while (fscanf(f, "%d|%[^|]|%[^|]|%d|%d\n",
+                  &bib->exemplaires[bib->nb_exemplaires].num_expemplaire,
+                  bib->exemplaires[bib->nb_exemplaires].ISBN,
+                  bib->exemplaires[bib->nb_exemplaires].date_achat,
+                  &bib->exemplaires[bib->nb_exemplaires].stock_expemplaire,
+                  &bib->exemplaires[bib->nb_exemplaires].disponible) == 5) {
+
+        bib->nb_exemplaires++;
+        if (bib->nb_exemplaires >= MAX_EXEMPLAIRES) break;
     }
 
     fclose(f);
@@ -106,6 +161,7 @@ void charger_livres(Bibliotheque* bib) {
 void charger_utilisateurs(Bibliotheque* bib) {
     FILE* f = fopen("utilisateurs.txt", "r");
     if (!f) {
+        bib->nb_utilisateurs = 0;
         return;
     }
 
@@ -117,6 +173,7 @@ void charger_utilisateurs(Bibliotheque* bib) {
                   bib->utilisateurs[bib->nb_utilisateurs].prenom,
                   bib->utilisateurs[bib->nb_utilisateurs].email,
                   &bib->utilisateurs[bib->nb_utilisateurs].nb_emprunts_actifs) == 5) {
+
         bib->nb_utilisateurs++;
         if (bib->nb_utilisateurs >= MAX_UTILISATEURS) break;
     }
@@ -128,6 +185,7 @@ void charger_emprunts(Bibliotheque* bib) {
     FILE* f = fopen("emprunts.txt", "r");
     if (!f) {
         bib->prochain_id_emprunt = 1;
+        bib->nb_emprunts = 0;
         return;
     }
 
@@ -143,6 +201,7 @@ void charger_emprunts(Bibliotheque* bib) {
                   bib->emprunts[bib->nb_emprunts].date_retour_prevue,
                   bib->emprunts[bib->nb_emprunts].date_retour_effective,
                   &bib->emprunts[bib->nb_emprunts].actif) == 7) {
+
         bib->nb_emprunts++;
         if (bib->nb_emprunts >= MAX_EMPRUNTS) break;
     }
@@ -154,11 +213,13 @@ void charger_donnees(Bibliotheque* bib) {
     printf("Chargement des donnees...\n");
 
     charger_livres(bib);
+    charger_exemplaires(bib);
     charger_utilisateurs(bib);
     charger_emprunts(bib);
 
     printf("-> Donnees chargees:\n");
     printf("  - %d livres\n", bib->nb_livres);
+    printf("  - %d exemplaires\n", bib->nb_exemplaires);
     printf("  - %d utilisateurs\n", bib->nb_utilisateurs);
     printf("  - %d emprunts\n", bib->nb_emprunts);
 }
