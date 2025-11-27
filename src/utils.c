@@ -1,7 +1,6 @@
-// ============================================================================
+
 // FICHIER: utils.c
-// Description: Implémentation des fonctions utilitaires
-// ============================================================================
+
 
 #include <stdio.h>
 #include <string.h>

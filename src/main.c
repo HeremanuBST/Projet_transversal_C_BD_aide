@@ -1,7 +1,5 @@
-// ============================================================================
+
 // FICHIER: main.c
-// Description: Programme principal avec menu interactif
-// ============================================================================
 
 #include <stdio.h>
 #include <stdlib.h>

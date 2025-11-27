@@ -9,13 +9,29 @@
 #include "../include/livres.h"
 #include "../include/utils.h"
 
+// ---------------------------------------------------------------------------
+// Helper : vérifier si un livre est actuellement emprunté
+// (on regarde les EMPRUNTS ACTIFS sur cet ISBN)
+// ---------------------------------------------------------------------------
+static int livre_a_des_emprunts_actifs(Bibliotheque* bib, const char* isbn) {
+    for (int i = 0; i < bib->nb_emprunts; i++) {
+        if (bib->emprunts[i].actif &&
+            strcmp(bib->emprunts[i].isbn, isbn) == 0) {
+            return 1; // au moins un emprunt en cours sur ce livre
+        }
+    }
+    return 0;
+}
+
 void afficher_un_livre(Livre* livre) {
     printf("ISBN: %s\n", livre->isbn);
     printf("Titre: %s\n", livre->titre);
     printf("Auteur: %s\n", livre->auteur);
     printf("Annee: %d\n", livre->annee);
     printf("Categorie: %s\n", livre->categorie);
-    printf("Disponibilite: %s\n", livre->disponible ? "Disponible" : "Emprunte");
+
+    // Si tu veux, on pourrait plus tard afficher aussi les infos d'exemplaires,
+    // mais pour l'instant on garde simple.
     printf("----------------------------------------\n");
 }
 
@@ -63,7 +79,7 @@ void ajouter_livre(Bibliotheque* bib) {
     fgets(nouveau.categorie, MAX_CATEGORIE, stdin);
     nouveau.categorie[strcspn(nouveau.categorie, "\n")] = 0;
 
-    nouveau.disponible = 1;
+    // PLUS de champ "disponible" à initialiser ici
 
     bib->livres[bib->nb_livres] = nouveau;
     bib->nb_livres++;
@@ -86,10 +102,15 @@ void supprimer_livre(Bibliotheque* bib) {
         return;
     }
 
-    if (!bib->livres[index].disponible) {
-        printf("Erreur: Le livre est actuellement emprunte!\n");
+    // Ancien test: if (!bib->livres[index].disponible) ...
+    // Maintenant : on regarde s'il y a des EMPRUNTS ACTIFS sur cet ISBN.
+    if (livre_a_des_emprunts_actifs(bib, isbn)) {
+        printf("Erreur: Ce livre est actuellement emprunte (au moins un exemplaire en cours)!\n");
         return;
     }
+
+    // Si tu veux aussi empêcher la suppression si des exemplaires existent encore,
+    // on pourrait ajouter un test sur bib->exemplaires ici.
 
     for (int i = index; i < bib->nb_livres - 1; i++) {
         bib->livres[i] = bib->livres[i + 1];
@@ -253,7 +274,7 @@ void afficher_livres(Bibliotheque* bib) {
     printf("\n=== LISTE DES LIVRES (%d) ===\n\n", bib->nb_livres);
 
     for (int i = 0; i < bib->nb_livres; i++) {
-        printf("%d. ", i + 1); // Pour pouvoir
+        printf("%d. ", i + 1);
         afficher_un_livre(&bib->livres[i]);
     }
 }

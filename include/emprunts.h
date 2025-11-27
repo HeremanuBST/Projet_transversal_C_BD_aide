@@ -11,6 +11,7 @@
 void emprunter_livre(Bibliotheque* bib);
 void retourner_livre(Bibliotheque* bib);
 void afficher_emprunts_actifs(Bibliotheque* bib);
+void afficher_emprunts_en_cours(Bibliotheque* bib);
 void verifier_retards(Bibliotheque* bib);
 void afficher_un_emprunt(Emprunt* emp, Bibliotheque* bib);
 
