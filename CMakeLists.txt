@@ -15,4 +15,6 @@ add_executable(main src/main.c
         include/utilisateurs.h
         src/livres.c
         include/livres.h
-        include/structures.h)
+        include/structures.h
+        src/exemplaire.c
+        include/exemplaire.h)
